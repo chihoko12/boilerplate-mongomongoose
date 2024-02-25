@@ -156,8 +156,20 @@ const removeManyPeople = (done) => {
 const queryChain = (done) => {
   const foodToSearch = "burrito";
 
-  done(null /*, data*/);
-};
+  // Chain query helpers to find people who like the specified food
+  Person.find({ favoriteFoods: foodToSearch }) // Find people who like the specified food
+        .sort({ name: 1 }) // Sort them by name in ascending order
+        .limit(2) // limit the results to two arguments
+        .select({ age: 0 }) // hide their age
+        .exec((err,data) => {
+          if(err) {
+            // Handle error
+            return done(err);
+          }
+          // Query executed successfully
+          done(null, data);
+        });
+}
 
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
