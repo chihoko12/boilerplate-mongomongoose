@@ -40,7 +40,16 @@ const createAndSavePerson = (done) => {
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+
+  // Use Model.create() to create a many people
+  Person.create(arrayOfPeople, (err, data)=> {
+    if(err) {
+      // Handle error
+      return done(err);
+    }
+    //People created successfully
+    done (null, data);
+  });
 };
 
 const findPeopleByName = (personName, done) => {
